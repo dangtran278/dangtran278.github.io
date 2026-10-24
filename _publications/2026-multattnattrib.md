@@ -6,6 +6,8 @@ selected:       true
 pub:            "EACL 2027"
 pub_post:       ", under review."
 pub_last:       "arXiv:2607.01420"
+cover:          /assets/images/figures/multattnattrib.png
+cover_alt:      "The MultAttnAttrib pipeline: head identification and calibration run once offline, then attribution runs per query"
 abstract: >-
   A training-free method that attributes a vision-language model's answer to the source text and images
   of a long document by reading its retrieval heads. We also introduce MultAttrEval, the first benchmark

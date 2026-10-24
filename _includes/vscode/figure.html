@@ -1,7 +1,7 @@
-<figure class="media{% unless include.src %} placeholder{% endunless %}">
-    {% if include.src %}
-    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy">
-    {% else %}
-    <span class="ph" aria-hidden="true"><i class="fa-regular fa-image"></i><span>{{ include.name }}</span></span>
-    {% endif %}
+{% if include.src %}
+<figure class="media">
+    <a href="{{ include.src | relative_url }}" target="_blank" rel="noopener" title="Open full size">
+        <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy">
+    </a>
 </figure>
+{% endif %}

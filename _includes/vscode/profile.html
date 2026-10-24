@@ -6,7 +6,7 @@
     <div class="who">
         <h1>{{ p.primary_name }}</h1>
         <div class="pos">
-            {% for position in p.positions %}{{ position.name }}<br/>{% endfor %}
+            {% for position in p.positions %}<span>{{ position.name }}</span>{% endfor %}
         </div>
     </div>
     <div class="links">

@@ -8,3 +8,11 @@ vendor/
 Gemfile.lock
 
 .DS_Store
+
+# Private working files and template leftovers
+handoff_github_page.md
+review_edits_2026-10-24.md
+job_search_edits_2026-10-24.md
+_tpl/
+_draft_v1/
+assets/images/photos/portrait.jpg

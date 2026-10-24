@@ -11,6 +11,15 @@ title: Homepage
     <div class="bio">{{ site.data.profile.short_bio }}</div>
 </section>
 
+{% assign f = site.data.files | where: "id", "skills" | first %}
+<section class="file" id="{{ f.id }}" data-name="{{ f.name }}" data-lang="{{ f.lang }}">
+    {% include vscode/file_head.html file=f %}
+    <h2><span class="mk" aria-hidden="true">#</span>Skills</h2>
+    {% for item in site.data.profile.skills %}
+    {% include vscode/tokens.html key=item.name list=item.items class="tok-type" %}
+    {% endfor %}
+</section>
+
 {% assign f = site.data.files | where: "id", "news" | first %}
 <section class="file" id="{{ f.id }}" data-name="{{ f.name }}" data-lang="{{ f.lang }}">
     {% include vscode/file_head.html file=f %}
@@ -27,8 +36,7 @@ title: Homepage
     <h2><span class="mk" aria-hidden="true">#</span>Publications</h2>
     {% assign pubs = site.publications | sort: "date" | reverse %}
     {% for item in pubs %}
-    <article class="entry has-media" id="{{ item.anchor }}">
-        {% include vscode/figure.html src=item.cover alt=item.title name="figure.png" %}
+    <article class="entry{% if item.cover %} has-media{% endif %}" id="{{ item.anchor }}">
         <div class="entry-body">
         <h3>{{ item.title }}</h3>
         <p class="authors">{% include widgets/author_list.html authors=item.authors %}</p>
@@ -38,6 +46,7 @@ title: Homepage
             {% for link in item.links %}<a class="chip" target="_blank" rel="noopener" href="{{ link[1] }}">{{ link[0] }}</a>{% endfor %}
         </p>
         </div>
+        {% include vscode/figure.html src=item.cover alt=item.cover_alt %}
     </article>
     {% endfor %}
 </section>
@@ -88,6 +97,7 @@ title: Homepage
             <span class="date">{{ item.date }}</span>
         </div>
         <p class="meta">{{ item.position }} <span class="sep" aria-hidden="true">|</span> {{ item.place }}</p>
+        {% if item.stack %}{% include vscode/tokens.html key="stack" list=item.stack class="tok-type" %}{% endif %}
         <ul class="points">
             {% for point in item.points %}<li>{{ point }}</li>{% endfor %}
         </ul>
@@ -101,20 +111,21 @@ title: Homepage
     {% include vscode/file_head.html file=f %}
     <h2><span class="mk" aria-hidden="true">#</span>Projects</h2>
     {% for item in site.data.projects %}
-    <article class="entry has-media" id="{{ item.anchor }}">
-        {% include vscode/figure.html src=item.cover alt=item.title name="preview.png" %}
-        <div class="entry-body">
+    <article class="entry{% if item.cover %} has-media{% endif %}" id="{{ item.anchor }}">
         <div class="entry-head">
             <h3><span class="mk" aria-hidden="true">##</span><a class="plain" target="_blank" rel="noopener" href="{{ item.repo }}">{{ item.title }}</a></h3>
             <a class="chip" target="_blank" rel="noopener" href="{{ item.repo }}"><i class="fab fa-github"></i> Code</a>
+            {% if item.demo %}<a class="chip" target="_blank" rel="noopener" href="{{ item.demo | relative_url }}"><i class="fas fa-play"></i> Demo</a>{% endif %}
             <span class="date">{{ item.date }}</span>
         </div>
+        <div class="entry-body">
         {% if item.stack %}{% include vscode/tokens.html key="stack" list=item.stack class="tok-type" %}{% endif %}
         <ul class="points">
             {% for point in item.points %}<li>{{ point }}</li>{% endfor %}
         </ul>
         {% include vscode/tokens.html key="keywords" list=item.keywords %}
         </div>
+        {% include vscode/figure.html src=item.cover alt=item.cover_alt %}
     </article>
     {% endfor %}
 </section>
@@ -134,7 +145,10 @@ title: Homepage
             {% endfor %}
             <h3><span class="mk" aria-hidden="true">##</span>Teaching</h3>
             {% for item in site.data.profile.teaching %}
-            <p class="edu-name">{{ item.name }}<span class="date">{{ item.date }}</span></p>
+            <div class="edu-item">
+                <p class="edu-name">{{ item.name }}<span class="date">{{ item.date }}</span></p>
+                {% if item.position %}<p class="meta">{{ item.position }}</p>{% endif %}
+            </div>
             {% endfor %}
         </div>
         <div>
@@ -142,13 +156,6 @@ title: Homepage
             {% for item in site.data.profile.awards %}
             <p class="edu-name">{{ item.name }}<span class="date">{{ item.date }}</span></p>
             {% endfor %}
-            <h3><span class="mk" aria-hidden="true">##</span>Skills</h3>
-            <dl class="skills">
-                {% for item in site.data.profile.skills %}
-                <dt>{{ item.name }}</dt>
-                <dd>{{ item.items }}</dd>
-                {% endfor %}
-            </dl>
         </div>
     </div>
 </section>

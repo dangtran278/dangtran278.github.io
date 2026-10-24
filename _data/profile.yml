@@ -2,7 +2,8 @@ primary_name: "Dang Quang Thien Tran"
 navbar_name: "Dang Quang Thien Tran"
 
 positions:
-- name: M.S. in Computer Science, UMass Amherst
+- name: Machine learning engineer and researcher
+- name: M.S. in Computer Science, UMass Amherst, 2026
 - name: Philadelphia, PA
 
 email: "tranquangthiendang2003@gmail.com"
@@ -21,17 +22,19 @@ short_bio: >-
     AI, through interpretability, benchmark design, and closed-form analysis.
   </p>
   <p>
-    I completed my M.S. in Computer Science at the University of Massachusetts Amherst in 2026. That year I worked
-    with Adobe Research on <a href="#pub-multattnattrib">MultAttnAttrib</a>, a training-free method that traces a
-    vision-language model's answer back to the text and images of a long document. I have also built retrieval,
-    forecasting and OCR systems as an engineering intern, and I am building
-    <a href="https://github.com/dangtran278/Ctrl-F-ilm" target="_blank">Ctrl F-ilm</a>, a search engine for moments
-    in video.
+    I earned my M.S. in Computer Science at the University of Massachusetts Amherst in 2026. At Adobe Research,
+    I designed <a href="#pub-multattnattrib">MultAttnAttrib</a>, a training-free method that traces a
+    vision-language model's answer back to the text and images of a long document. I now work on abstention in
+    vision-language models and on causal discovery at UMass Amherst.
+  </p>
+  <p>
+    In three industry internships I built retrieval, OCR and forecasting systems. I am now developing
+    <a href="https://github.com/dangtran278/Ctrl-F-ilm" target="_blank">Ctrl F-ilm</a>, a search engine for
+    moments in video, deployed on AWS.
   </p>
 
-# Placeholder until Dang supplies a photo: replace the file and keep this path,
-# or point this at the new file.
-portrait_url: /assets/images/photos/portrait.svg
+# To change the photo, replace the file and keep this path, or point this at the new file.
+portrait_url: /assets/images/photos/dang.jpg
 
 education:
 - name: University of Massachusetts Amherst
@@ -45,7 +48,7 @@ education:
 
 teaching:
 - name: Undergraduate Course Assistant, Introduction to C Programming, UMass Amherst
-  date: Fall 2023
+  date: "2023"
 
 awards:
 - name: Bay State Scholar, UMass Amherst
@@ -57,12 +60,14 @@ awards:
 
 skills:
 - name: Programming
-  items: Python, C/C++, Java, R, SQL, LaTeX
-- name: ML and science
-  items: PyTorch, vLLM, nnsight, scikit-learn, NumPy, SciPy, pandas, statsmodels
+  items: Python, TypeScript, JavaScript, C/C++, Java, R, SQL, LaTeX
+- name: Machine learning
+  items: PyTorch, Hugging Face, vLLM, nnsight, scikit-learn, NumPy, SciPy, pandas, statsmodels
 - name: Retrieval and vision
   items: FAISS, Qdrant, OpenCV, Tesseract
-- name: Tools
-  items: Slurm, Docker, AWS, FastAPI, Linux, Git
+- name: Web and services
+  items: FastAPI, Flask, NestJS, React, MongoDB, REST APIs
+- name: Infrastructure
+  items: Docker, AWS, Slurm, CI/CD, Airflow, Linux, Git
 - name: Languages
   items: English (fluent), Vietnamese (native)

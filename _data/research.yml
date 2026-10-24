@@ -4,7 +4,7 @@
 
 ongoing:
 - title: Abstention in vision-language models when image and text conflict
-  where: UMass Amherst
+  where: Information Fusion Lab, UMass Amherst; advised by Prof. Madalina Fiterau and Prof. David Jensen
   status: in preparation
 - title: Robustness of findings in continuous causal discovery
   where: Knowledge Discovery Lab, UMass Amherst; advised by Prof. David Jensen
@@ -22,8 +22,8 @@ projects:
   points:
   - Designed MultAttnAttrib, attributing VLM answers to source text and images via retrieval heads
   - Found retrieval heads sparse and largely shared, with image heads concentrated in deeper layers
-  - Outperformed same-model prompting and RAG baselines, and GPT-5.4 on image attribution, while running 7.3&times; faster than prompting Qwen3-VL-30B
-  - Introduced MultAttrEval, the first benchmark for multimodal attribution in long documents, with 2,285 examples across six domains
+  - Outperformed same-model prompting and RAG baselines, and GPT-5.4 on image attribution
+  - Introduced MultAttrEval, the first benchmark for multimodal attribution in long documents
   keywords: mechanistic interpretability, attributed generation, long-document QA, causal mediation analysis
 
 - title: Tool-augmented vision-language models for medical VQA

@@ -1,21 +1,52 @@
-# cover: optional image path, e.g. /assets/images/figures/ctrl-f-ilm.png. Without one, a placeholder shows.
+# cover: optional image path, e.g. /assets/images/figures/ctrl-f-ilm.png, with cover_alt describing it.
+# Without a cover, the entry shows no figure. demo: optional video path, shown as a Demo chip.
 - title: Ctrl F-ilm, zero-shot video moment search
   anchor: proj-ctrl-f-ilm
   file: ctrl-f-ilm.md
   date: 2026 - present
   repo: https://github.com/dangtran278/Ctrl-F-ilm
   points:
-  - Developed search that returns the video and timestamps for a text query, tested on 4,600 videos
-  - Reached 38% top-1 and 76% top-10 zero-shot retrieval on 1,019 YouTube videos from ActivityNet
-  - Automated commit-to-production deploys on AWS ECS behind a 3-stage CI/CD gate
-  stack: PyTorch, Qdrant, AWS, Docker, FastAPI
-  keywords: cross-modal retrieval, video corpus moment retrieval, temporal grounding
+  - Developed a search engine that returns the video and timestamps for a text query, tested on 4,600 videos
+  - Scored 38% top-1 and 76% top-10 zero-shot retrieval on 1,019 YouTube videos from ActivityNet
+  - Gated commit-to-production deploys on AWS ECS behind a 3-stage CI/CD pipeline
+  stack: PyTorch, Qdrant, AWS, Docker, CI/CD, Airflow, FastAPI
+  keywords: video corpus moment retrieval, cross-modal retrieval, vector search, MLOps
 
 - title: Brain tumor segmentation
   anchor: proj-brain-tumor
   file: brain-tumor-seg.md
   date: "2025"
   repo: https://github.com/dangtran278/Brain-Tumor-Segmentation-UNetPlusPlus-ASPP
+  cover: /assets/images/figures/brain-tumor-seg.png
+  cover_alt: A brain MRI slice with the ground-truth tumor regions and the predictions of UNet, UNet++ and the enhanced UNet++ with ASPP
   points:
   - Raised BraTS2020 Dice over UNet++ (0.79 to 0.85) via residual blocks, ASPP and Dice + CE loss
+  stack: PyTorch, NiBabel, OpenCV, NumPy, Matplotlib
   keywords: medical image segmentation, MRI, multi-scale features, class imbalance
+
+- title: UnJobless, job application manager
+  anchor: proj-unjobless
+  file: unjobless.md
+  date: "2024"
+  repo: https://github.com/MorElf7/UnJobless
+  cover: /assets/images/figures/unjobless.png
+  cover_alt: The UnJobless Chrome extension beside a Greenhouse application form, with AI-drafted answers filled into the form's open-ended questions
+  demo: /assets/videos/unjobless-demo.mp4
+  points:
+  - Implemented a NestJS and MongoDB service in a 5-person TypeScript monorepo, with a Chrome extension targeting the Greenhouse and Workday applicant tracking systems
+  - Decreased application time by about 60% with OpenAI-drafted answers to open-ended questions
+  stack: TypeScript, NestJS, MongoDB, OpenAI
+  keywords: backend development, LLM applications
+
+- title: Campuswire Analytics, course data dashboard
+  anchor: proj-campuswire
+  file: campuswire.md
+  date: "2023"
+  repo: https://github.com/ntdkhiem/CS320-Campuswire-Analytics
+  cover: /assets/images/figures/campuswire.png
+  cover_alt: The Campuswire Analytics dashboard, showing a line chart of unique users per day on a course forum
+  points:
+  - Created course progress tracking and report generation, letting educators and students visualize course data about 30% faster than the manual method
+  - Integrated data visualization tools with the back-end team, improving course navigation and cutting response time on academic queries by 10%
+  stack: React, Bootstrap, JavaScript, REST APIs
+  keywords: front-end development, learning analytics

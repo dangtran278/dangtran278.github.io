@@ -18,9 +18,9 @@ as a file. GitHub Pages builds it with its own Jekyll 3.9, so there is no workfl
 | Publications | one file per paper in `_publications/` |
 | News | one file per item in `_news/` (the home page shows the newest five) |
 | Section file names, icons and order in the tabs and Explorer | `_data/files.yml` |
-| Figures | `cover:` in a paper's front matter or a project entry; put images in `assets/images/figures/` |
+| Figures | `cover:` and `cover_alt:` in a paper's front matter or a project entry; put images in `assets/images/figures/`, padded to 16:10. Without a cover, the entry shows no figure. A project's `demo:` points at a video in `assets/videos/` and adds a Demo chip |
 | Template credit at the end of the page | `footer_text` in `_data/display.yml` |
-| Photo | replace `assets/images/photos/portrait.svg`, or point `portrait_url` at a new file |
+| Photo | replace `assets/images/photos/dang.jpg`, or point `portrait_url` in `_data/profile.yml` at a new file |
 | CV and resume | `assets/files/` |
 
 The PDFs in `assets/files/` are public versions: no phone number, and the unpublished projects appear as

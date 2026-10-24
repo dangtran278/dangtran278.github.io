@@ -4,6 +4,10 @@
   name: about.md
   lang: Markdown
   icon: md
+- id: skills
+  name: skills.yaml
+  lang: YAML
+  icon: yaml
 - id: news
   name: news.log
   lang: Log

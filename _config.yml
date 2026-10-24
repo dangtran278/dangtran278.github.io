@@ -3,8 +3,8 @@
 # https://github.com/luost26/academic-homepage at commit 69f6589 (2026-10-22).
 title: Dang Quang Thien Tran
 description: >-
-  Dang Quang Thien Tran studies trustworthy machine learning, asking when a model's answer
-  can be checked against the evidence behind it. Publications, research, industry experience and projects.
+  Dang Quang Thien Tran is a machine learning engineer and researcher working on trustworthy machine
+  learning, asking when a model's answer can be checked against the evidence behind it. Publications, research, industry experience and projects.
 url: "https://dangtran278.github.io"
 baseurl: "" # user site, served from the domain root
 timezone: America/New_York

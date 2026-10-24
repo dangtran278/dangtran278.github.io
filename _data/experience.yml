@@ -3,11 +3,13 @@
 - name: Adobe Research
   position: Research Extern
   place: Remote
-  date: Feb - May 2026
+  date: Spring 2026
   points:
-  - Co-first author of <a href="#pub-multattnattrib">MultAttnAttrib</a>; see Research for the findings
+  - Surpassed GPT-5.4 on image attribution with a training-free method that reads Qwen3-VL-30B's attention heads, 7.3&times; faster than prompting it
   - Automated generation of the 2,285-example attribution benchmark, running vLLM inference across distributed Slurm nodes
   - Engineered a multi-stage RAG pipeline over Cohere text-image retrieval, gated by a rubric-based LLM judge
+  stack: PyTorch, Hugging Face, vLLM, Cohere API, OpenAI API, PyMuPDF, Slurm
+  keywords: vision-language models, LLM evaluation, synthetic data generation
 
 - name: CB/I Digital
   position: Data Scientist Intern
@@ -15,9 +17,10 @@
   date: Summer 2025
   points:
   - Discovered that sales-pattern clustering merged occasional sellers with never-sold products
-  - Lowered new-product wMAPE 12% across 6 brands by re-ranking embedding matches on shape and magnitude
+  - Lowered new-product wMAPE 12% across 6 brands by matching on multimodal embeddings, shape and magnitude
   - Built anomaly detection for 600+ SKUs, flagging demand shifts with Z-scores and residual analysis
-  keywords: intermittent and cold-start demand forecasting, anomaly detection, STL decomposition
+  stack: Python, pandas, NumPy, SciPy, statsmodels, scikit-learn, NeuralProphet, SQL
+  keywords: time series forecasting, cold-start and intermittent demand, STL decomposition
 
 - name: FPT Information System
   position: Machine Learning Engineer Intern
@@ -26,7 +29,8 @@
   points:
   - Deployed two-stage extractive QA with hybrid retrieval (FAISS and BM25) and a fine-tuned cross-encoder reranker
   - Reached 85% recall and 81% precision, with retrieval about 70% faster than the prior system
-  keywords: information retrieval, dense retrieval, BM25, learning to rank
+  stack: PyTorch, Hugging Face, FAISS, BM25, Git
+  keywords: information retrieval, semantic search, machine reading comprehension, learning to rank
 
 - name: MobiFone
   position: Computer Vision Engineer Intern
@@ -35,4 +39,5 @@
   points:
   - Accelerated field extraction from scanned legal documents with non-standard templates by 20%
   - Served the OCR pipeline as a Flask REST API that extracted JSON from 200+ legal documents
-  keywords: document layout analysis, OCR, U-Net, fuzzy string matching
+  stack: OpenCV, Tesseract, ONNX Runtime, scikit-learn, Flask, REST API
+  keywords: document layout analysis, key information extraction, U-Net segmentation, fuzzy string matching
