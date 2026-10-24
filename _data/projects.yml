@@ -1,4 +1,7 @@
+# cover: optional image path, e.g. /assets/images/figures/ctrl-f-ilm.png. Without one, a placeholder shows.
 - title: Ctrl F-ilm, zero-shot video moment search
+  anchor: proj-ctrl-f-ilm
+  file: ctrl-f-ilm.md
   date: 2026 - present
   repo: https://github.com/dangtran278/Ctrl-F-ilm
   points:
@@ -9,6 +12,8 @@
   keywords: cross-modal retrieval, video corpus moment retrieval, temporal grounding
 
 - title: Brain tumor segmentation
+  anchor: proj-brain-tumor
+  file: brain-tumor-seg.md
   date: "2025"
   repo: https://github.com/dangtran278/Brain-Tumor-Segmentation-UNetPlusPlus-ASPP
   points:

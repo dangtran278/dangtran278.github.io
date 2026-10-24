@@ -1,0 +1,9 @@
+<script>
+    // Apply a saved theme before first paint; without one, the CSS follows the system setting.
+    (function () {
+        try {
+            var t = localStorage.getItem("theme");
+            if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+    })();
+</script>

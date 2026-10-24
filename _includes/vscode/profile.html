@@ -1,0 +1,30 @@
+{%- assign p = site.data.profile -%}
+<div class="profile">
+    {% if p.portrait_url %}
+    <img class="portrait" src="{{ p.portrait_url | relative_url }}" alt="Portrait of {{ p.primary_name }}">
+    {% endif %}
+    <div class="who">
+        <h1>{{ p.primary_name }}</h1>
+        <div class="pos">
+            {% for position in p.positions %}{{ position.name }}<br/>{% endfor %}
+        </div>
+    </div>
+    <div class="links">
+        {% if p.email %}
+        <a href="mailto:{{ p.email | encode_email }}" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
+        {% endif %}
+        {% if p.gscholar %}
+        <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user={{ p.gscholar }}" aria-label="Google Scholar" title="Google Scholar"><i class="fab fa-google-scholar"></i></a>
+        {% endif %}
+        {% if p.github %}
+        <a target="_blank" rel="noopener" href="https://github.com/{{ p.github }}" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+        {% endif %}
+        {% if p.linkedin %}
+        <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{ p.linkedin }}" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        {% endif %}
+    </div>
+    <div class="buttons">
+        {% if p.cv_link %}<a class="btn" target="_blank" href="{{ p.cv_link | relative_url }}"><i class="fas fa-file-alt"></i> CV</a>{% endif %}
+        {% if p.resume_link %}<a class="btn" target="_blank" href="{{ p.resume_link | relative_url }}"><i class="fas fa-file-lines"></i> Resume</a>{% endif %}
+    </div>
+</div>

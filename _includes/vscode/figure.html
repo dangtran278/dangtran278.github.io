@@ -1,0 +1,7 @@
+<figure class="media{% unless include.src %} placeholder{% endunless %}">
+    {% if include.src %}
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy">
+    {% else %}
+    <span class="ph" aria-hidden="true"><i class="fa-regular fa-image"></i><span>{{ include.name }}</span></span>
+    {% endif %}
+</figure>

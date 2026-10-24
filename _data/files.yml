@@ -1,0 +1,30 @@
+# Each home page section is shown as a file: one tab, one Explorer entry, one quick-open item.
+# id is the section's anchor; lang appears in the status bar while the section is in view.
+- id: about
+  name: about.md
+  lang: Markdown
+  icon: md
+- id: news
+  name: news.log
+  lang: Log
+  icon: log
+- id: publications
+  name: publications.bib
+  lang: BibTeX
+  icon: bib
+- id: research
+  name: research.md
+  lang: Markdown
+  icon: md
+- id: experience
+  name: experience.yaml
+  lang: YAML
+  icon: yaml
+- id: projects
+  name: projects/
+  lang: Markdown
+  icon: folder
+- id: education
+  name: education.json
+  lang: JSON
+  icon: json

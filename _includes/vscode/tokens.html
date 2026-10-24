@@ -1,0 +1,7 @@
+{%- comment -%} A comma-separated list drawn as a YAML key with a list of tokens. {%- endcomment -%}
+{%- assign tokens = include.list | split: ", " -%}
+<p class="kw"><span class="tok-key">{{ include.key }}</span><span class="tok-punc">: [</span>
+    {%- for t in tokens -%}
+    <span class="{{ include.class | default: 'tok-str' }}">{{ t }}</span>{% unless forloop.last %}<span class="tok-punc">, </span>{% endunless %}
+    {%- endfor -%}
+<span class="tok-punc">]</span></p>
