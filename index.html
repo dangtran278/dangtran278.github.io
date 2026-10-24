@@ -1,0 +1,173 @@
+---
+layout: default
+title : Homepage
+navbar_title: Home
+---
+
+<div class="row">
+    <div class="col-lg-3 col-md-4">
+        {% include widgets/profile_card_mini.html %}
+    </div>
+    <div class="col-lg-9 col-md-8">
+
+        {% include widgets/profile_card_bio_only.html %}
+
+        {% assign count_news = site.news | size %}
+        {% if count_news > 0 %}
+        {% include widgets/news_card.html limit=site.data.display.homepage.num_news %}
+        {% endif %}
+
+        <!-- Publications -->
+        {% assign pubs = site.publications | sort: "date" | reverse %}
+        <div class="my-3 p-0 bg-white shadow-sm rounded-xl" id="publications">
+            <h2 class="section-title border-bottom border-gray p-3 mb-0"><i class="fas fa-book-open"></i> Publications</h2>
+            {% for item in pubs %}
+            <div id="{{ item.anchor }}">
+                {% include widgets/publication_item.html item=item hide_bottom_border=forloop.last first=false last=forloop.last %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Research -->
+        <div class="my-3 p-0 bg-white shadow-sm rounded-xl" id="research">
+            <h2 class="section-title border-bottom border-gray p-3 mb-0"><i class="fas fa-flask"></i> Research</h2>
+
+            <div class="entry px-3 py-3 border-bottom border-gray">
+                <div class="d-flex flex-wrap align-items-baseline">
+                    <h3 class="entry-title mb-0 mr-2">Current projects</h3>
+                    <div class="ml-auto text-muted small no-break"><i>2026 - present</i></div>
+                </div>
+                <ul class="small mb-0 mt-1 pl-3">
+                    {% for item in site.data.research.ongoing %}
+                    <li>
+                        <span class="font-weight-bold">{{ item.title }}</span>
+                        <span class="text-muted">({{ item.status }})</span><br/>
+                        <i class="text-muted">{{ item.where }}</i>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% for item in site.data.research.projects %}
+            <div class="entry px-3 py-3 {% unless forloop.last %}border-bottom border-gray{% endunless %}">
+                <div class="d-flex flex-wrap align-items-baseline">
+                    <h3 class="entry-title mb-0 mr-2">{{ item.title }}</h3>
+                    {% if item.status %}
+                    {% if item.paper %}
+                    <a class="badge badge-pill badge-light border mr-2" href="{{ item.paper }}">{{ item.status }}</a>
+                    {% else %}
+                    <span class="badge badge-pill badge-light border mr-2">{{ item.status }}</span>
+                    {% endif %}
+                    {% endif %}
+                    <div class="ml-auto text-muted small no-break"><i>{{ item.date }}</i></div>
+                </div>
+                <div class="small text-muted"><i>{{ item.where }}</i></div>
+                <ul class="small mb-1 mt-1 pl-3">
+                    {% for point in item.points %}
+                    <li>{{ point }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="keywords small text-muted">{{ item.keywords }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Industry experience -->
+        <div class="my-3 p-0 bg-white shadow-sm rounded-xl" id="experience">
+            <h2 class="section-title border-bottom border-gray p-3 mb-0"><i class="fas fa-briefcase"></i> Industry Experience</h2>
+            {% for item in site.data.experience %}
+            <div class="entry px-3 py-3 {% unless forloop.last %}border-bottom border-gray{% endunless %}">
+                <div class="d-flex flex-wrap align-items-baseline">
+                    <h3 class="entry-title mb-0 mr-2">{{ item.name }}</h3>
+                    <span class="small text-muted mr-2">{{ item.place }}</span>
+                    <div class="ml-auto text-muted small no-break"><i>{{ item.date }}</i></div>
+                </div>
+                <div class="small text-muted"><i>{{ item.position }}</i></div>
+                <ul class="small mb-1 mt-1 pl-3">
+                    {% for point in item.points %}
+                    <li>{{ point }}</li>
+                    {% endfor %}
+                </ul>
+                {% if item.keywords %}
+                <div class="keywords small text-muted">{{ item.keywords }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Projects -->
+        <div class="my-3 p-0 bg-white shadow-sm rounded-xl" id="projects">
+            <h2 class="section-title border-bottom border-gray p-3 mb-0"><i class="fas fa-code"></i> Projects</h2>
+            {% for item in site.data.projects %}
+            <div class="entry px-3 py-3 {% unless forloop.last %}border-bottom border-gray{% endunless %}">
+                <div class="d-flex flex-wrap align-items-baseline">
+                    <h3 class="entry-title mb-0 mr-2">
+                        <a class="text-body" target="_blank" rel="noopener" href="{{ item.repo }}">{{ item.title }}</a>
+                    </h3>
+                    <a class="small mr-2" target="_blank" rel="noopener" href="{{ item.repo }}"><i class="fab fa-github"></i> Code</a>
+                    <div class="ml-auto text-muted small no-break"><i>{{ item.date }}</i></div>
+                </div>
+                {% if item.stack %}
+                <div class="small text-muted"><i>{{ item.stack }}</i></div>
+                {% endif %}
+                <ul class="small mb-1 mt-1 pl-3">
+                    {% for point in item.points %}
+                    <li>{{ point }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="keywords small text-muted">{{ item.keywords }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Education, honors, teaching, skills -->
+        <div class="my-3 bg-white shadow-sm rounded-xl" id="education">
+            <h2 class="section-title border-bottom border-gray p-3 mb-0"><i class="fas fa-graduation-cap"></i> Education and Honors</h2>
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <h3 class="entry-title">Education</h3>
+                        <ul class="list-unstyled small mb-0">
+                            {% for item in site.data.profile.education %}
+                            <li class="mb-2">
+                                <div class="d-flex">
+                                    <div class="font-weight-bold">{{ item.name }}</div>
+                                    <div class="ml-auto pl-2 text-muted no-break"><i>{{ item.date }}</i></div>
+                                </div>
+                                <div>{{ item.position }}</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h3 class="entry-title mt-3">Teaching</h3>
+                        <ul class="list-unstyled small mb-0">
+                            {% for item in site.data.profile.teaching %}
+                            <li class="d-flex">
+                                <div>{{ item.name }}</div>
+                                <div class="ml-auto pl-2 text-muted no-break"><i>{{ item.date }}</i></div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <h3 class="entry-title">Honors and Awards</h3>
+                        <ul class="list-unstyled small mb-0">
+                            {% for item in site.data.profile.awards %}
+                            <li class="d-flex mb-1">
+                                <div>{{ item.name }}</div>
+                                <div class="ml-auto pl-2 text-muted no-break"><i>{{ item.date }}</i></div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h3 class="entry-title mt-3">Skills</h3>
+                        <dl class="skills small mb-0">
+                            {% for item in site.data.profile.skills %}
+                            <dt>{{ item.name }}</dt>
+                            <dd>{{ item.items }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

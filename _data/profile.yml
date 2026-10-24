@@ -1,0 +1,68 @@
+primary_name: "Dang Quang Thien Tran"
+navbar_name: "Dang Quang Thien Tran"
+
+positions:
+- name: M.S. in Computer Science, UMass Amherst
+- name: Philadelphia, PA
+
+email: "tranquangthiendang2003@gmail.com"
+cv_link: /assets/files/Dang_Quang_Thien_Tran_CV.pdf
+resume_link: /assets/files/Dang_Quang_Thien_Tran_Resume.pdf
+gscholar: s0Tv0LoAAAAJ
+github: dangtran278
+linkedin: dangtran278
+
+short_bio_text_justify: false
+short_bio: >-
+  <p>
+    I study trustworthy machine learning. A model's answer deserves trust only when we can check it against the
+    evidence behind it. My research asks when such a check is possible, and what a model should do when it is not.
+    I have pursued these questions in vision-language models, information retrieval, causal discovery, and medical
+    AI, through interpretability, benchmark design, and closed-form analysis.
+  </p>
+  <p>
+    I completed my M.S. in Computer Science at the University of Massachusetts Amherst in 2026. That year I worked
+    with Adobe Research on <a href="#pub-multattnattrib">MultAttnAttrib</a>, a training-free method that traces a
+    vision-language model's answer back to the text and images of a long document. I have also built retrieval,
+    forecasting and OCR systems as an engineering intern, and I am building
+    <a href="https://github.com/dangtran278/Ctrl-F-ilm" target="_blank">Ctrl F-ilm</a>, a search engine for moments
+    in video.
+  </p>
+
+# Placeholder until Dang supplies a photo: replace the file and keep this path,
+# or point this at the new file.
+portrait_url: /assets/images/photos/portrait.svg
+
+education:
+- name: University of Massachusetts Amherst
+  position: M.S. in Computer Science, GPA 3.84/4.00
+  date: 2025 - 2026
+- name: University of Massachusetts Amherst
+  position: >-
+    B.S. in Computer Science, Minor in Mathematics<br/>
+    GPA 3.94/4.00, Cum Laude, Dean's List in all 8 semesters
+  date: 2021 - 2025
+
+teaching:
+- name: Undergraduate Course Assistant, Introduction to C Programming, UMass Amherst
+  date: Fall 2023
+
+awards:
+- name: Bay State Scholar, UMass Amherst
+  date: 2025 - 2026
+- name: Chancellor's Award, UMass Amherst
+  date: 2021 - 2025
+- name: Best Remote Health Hack, HackHolyoke
+  date: 2021
+
+skills:
+- name: Programming
+  items: Python, C/C++, Java, R, SQL, LaTeX
+- name: ML and science
+  items: PyTorch, vLLM, nnsight, scikit-learn, NumPy, SciPy, pandas, statsmodels
+- name: Retrieval and vision
+  items: FAISS, Qdrant, OpenCV, Tesseract
+- name: Tools
+  items: Slurm, Docker, AWS, FastAPI, Linux, Git
+- name: Languages
+  items: English (fluent), Vietnamese (native)

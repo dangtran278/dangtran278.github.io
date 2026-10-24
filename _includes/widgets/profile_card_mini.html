@@ -1,0 +1,96 @@
+<div class="row sticky-top" style="top: 80px">
+    <div class="col">
+        <div class="card border-0 shadow-sm bg-white">
+            <div class="card-body px-4 pt-4 pb-3">
+                <div class="row">
+                    <div class="col">
+                        {% if site.data.profile.portrait_url %}
+                        <!-- When the screen is wider than md, float the portrait on the right -->
+                        <div class="figure d-none d-md-block">
+                            <img 
+                                src="{{ site.data.profile.portrait_url | relative_url }}" 
+                                class="figure-img img-fluid rounded" 
+                                alt="Portrait of {{ site.data.profile.primary_name }}">
+                        </div>
+                        <div class="mb-3 d-md-none text-center">
+                            <img src="{{ site.data.profile.portrait_url | relative_url }}" class="rounded-circle" style="max-width: 50%;" alt="Portrait">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <h1 class="col text-center h4">
+                        {{ site.data.profile.primary_name }}
+                    </h1>
+                </div>
+
+                <div class="row small">
+                    <div class="col text-center">
+                        {% for position in site.data.profile.positions %}
+                        {{ position.name }}<br/>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="row pt-2">
+                    <div class="col text-center h4">
+                        {% if site.data.profile.email %}
+                        <a class="px-1 no-break" href="mailto:{{ site.data.profile.email | encode_email }}" aria-label="Email" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.gscholar %}
+                        {%- if site.data.profile.gscholar contains 'scholar.google' -%}
+                        {%- assign gscholar_url = site.data.profile.gscholar -%}
+                        {%- else -%}
+                        {%- assign gscholar_url = 'https://scholar.google.com/citations?user=' | append: site.data.profile.gscholar -%}
+                        {%- endif -%}
+                        <a class="px-1 no-break" target="_blank" rel="noopener" href="{{ gscholar_url }}" aria-label="Google Scholar" title="Google Scholar">
+                            <i class="fab fa-google-scholar"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if site.data.profile.github %}
+                        <a class="px-1 no-break" target="_blank" rel="noopener" href="https://github.com/{{ site.data.profile.github }}" aria-label="GitHub" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.twitter %}
+                        <a class="px-1 no-break" target="_blank" href="https://twitter.com/{{ site.data.profile.twitter }}">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.linkedin %}
+                        <a class="px-1 no-break" target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{ site.data.profile.linkedin }}" aria-label="LinkedIn" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.orcid %}
+                        <a class="px-1 no-break" target="_blank" href="https://orcid.org/{{ site.data.profile.orcid }}">
+                            <i class="fab fa-orcid"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if site.data.profile.cv_link or site.data.profile.resume_link %}
+                <div class="row pb-1">
+                    <div class="col text-center">
+                        {% if site.data.profile.cv_link %}
+                        <a class="btn btn-sm btn-outline-primary m-1" target="_blank" href="{{ site.data.profile.cv_link | relative_url }}"><i class="fas fa-file-alt"></i> CV</a>
+                        {% endif %}
+                        {% if site.data.profile.resume_link %}
+                        <a class="btn btn-sm btn-outline-primary m-1" target="_blank" href="{{ site.data.profile.resume_link | relative_url }}"><i class="fas fa-file-lines"></i> Resume</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+# Site settings
+# Built on academic-homepage by Shitong Luo (MIT license),
+# https://github.com/luost26/academic-homepage at commit 69f6589 (2026-10-22).
+title: Dang Quang Thien Tran
+description: >-
+  Dang Quang Thien Tran studies trustworthy machine learning, asking when a model's answer
+  can be checked against the evidence behind it. Publications, research, industry experience and projects.
+url: "https://dangtran278.github.io"
+baseurl: "" # user site, served from the domain root
+timezone: America/New_York
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-email-protect
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+  - handoff_github_page.md
+  - publications.html # everything lives on the home page
+  - _draft_v1
+  - _tpl
+  - vendor
+  - .claude
+
+collections:
+  - publications
+  - news

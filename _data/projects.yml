@@ -1,0 +1,16 @@
+- title: Ctrl F-ilm, zero-shot video moment search
+  date: 2026 - present
+  repo: https://github.com/dangtran278/Ctrl-F-ilm
+  points:
+  - Developed search that returns the video and timestamps for a text query, tested on 4,600 videos
+  - Reached 38% top-1 and 76% top-10 zero-shot retrieval on 1,019 YouTube videos from ActivityNet
+  - Automated commit-to-production deploys on AWS ECS behind a 3-stage CI/CD gate
+  stack: PyTorch, Qdrant, AWS, Docker, FastAPI
+  keywords: cross-modal retrieval, video corpus moment retrieval, temporal grounding
+
+- title: Brain tumor segmentation
+  date: "2025"
+  repo: https://github.com/dangtran278/Brain-Tumor-Segmentation-UNetPlusPlus-ASPP
+  points:
+  - Raised BraTS2020 Dice over UNet++ (0.79 to 0.85) via residual blocks, ASPP and Dice + CE loss
+  keywords: medical image segmentation, MRI, multi-scale features, class imbalance

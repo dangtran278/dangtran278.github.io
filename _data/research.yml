@@ -1,0 +1,44 @@
+# Wording follows D:\Projects\Resume\CVs\academic_cv.tex; extra detail comes from resume_mle.tex.
+# The three ongoing projects are topic lines only (no titles of drafts, results, formulas or
+# co-authors) until Dang approves more. Keep them in step with the web CV.
+
+ongoing:
+- title: Abstention in vision-language models when image and text conflict
+  where: UMass Amherst
+  status: in preparation
+- title: Robustness of findings in continuous causal discovery
+  where: Knowledge Discovery Lab, UMass Amherst; advised by Prof. David Jensen
+  status: in preparation
+- title: Share of undirected edges in sparse random DAGs
+  where: Independent research
+  status: in preparation
+
+projects:
+- title: "MultAttnAttrib: training-free multimodal attribution"
+  date: "2026"
+  status: EACL 2027, under review
+  paper: "#pub-multattnattrib"
+  where: Adobe Research; mentored by Samyadeep Basu
+  points:
+  - Designed MultAttnAttrib, attributing VLM answers to source text and images via retrieval heads
+  - Found retrieval heads sparse and largely shared, with image heads concentrated in deeper layers
+  - Outperformed same-model prompting and RAG baselines, and GPT-5.4 on image attribution, while running 7.3&times; faster than prompting Qwen3-VL-30B
+  - Introduced MultAttrEval, the first benchmark for multimodal attribution in long documents, with 2,285 examples across six domains
+  keywords: mechanistic interpretability, attributed generation, long-document QA, causal mediation analysis
+
+- title: Tool-augmented vision-language models for medical VQA
+  date: "2025"
+  where: BioNLP Lab, UMass Amherst; advised by Prof. Hong Yu, mentored by Hieu Tran
+  points:
+  - Curated a 500+ question medical VQA benchmark from five datasets; baselined six VLMs
+  - Showed that a zero-shot ReAct agent calling medical vision tools adds 6 points over the VLM
+  - Cut evaluation latency by about 90% by serving all six VLMs through vLLM batched inference
+  keywords: multimodal agents, open-vocabulary detection, image segmentation
+
+- title: Tight security of RSA Full-Domain-Hash
+  date: "2023"
+  status: ERSP National Conference, poster
+  where: Early Research Scholars Program, UMass Amherst; advised by Prof. Adam O'Neill
+  points:
+  - Conjectured a tight security reduction for RSA-FDH in the Algebraic Group Model
+  keywords: provable security, digital signatures
