@@ -20,7 +20,7 @@
     // About 30% of the window, or the height the visitor dragged it to. The page gets that much more room
     // at the bottom, so the panel never hides the end of it.
     var MIN_H = 120, EDITOR_MIN = 180;
-    var height = 0, greeted = false, returnFocus = null;
+    var height = 0, greeted = false, returnFocus = null, tab = "terminal";
     try { height = +localStorage.getItem("term-h") || 0; } catch (e) {}
 
     function px(name) {
@@ -38,22 +38,43 @@
         document.dispatchEvent(new Event("chatresize"));
     }
 
-    function openPanel() {
-        returnFocus = document.activeElement;
-        panel.hidden = false;
-        toggles.forEach(function (t) { t.setAttribute("aria-expanded", "true"); });
-        layout();
-        if (!greeted) {
+    // Each status bar toggle names its tab: Terminal, or Problems for the error and warning counts.
+    function syncToggles() {
+        toggles.forEach(function (t) {
+            var on = !panel.hidden && (t.getAttribute("data-term-toggle") || "terminal") === tab;
+            t.setAttribute("aria-expanded", String(on));
+        });
+    }
+
+    var tabButtons = panel.querySelectorAll(".tm-tab");
+    function showTab(name) {
+        tab = name;
+        tabButtons.forEach(function (b) {
+            var on = b.getAttribute("data-tab") === name;
+            b.setAttribute("aria-selected", String(on));
+            b.tabIndex = on ? 0 : -1;
+        });
+        panel.querySelectorAll("[data-pane]").forEach(function (p) { p.hidden = p.getAttribute("data-pane") !== name; });
+        panel.querySelectorAll("[data-for]").forEach(function (c) { c.hidden = c.getAttribute("data-for") !== name; });
+        syncToggles();
+        if (name === "terminal" && !greeted) {
             greeted = true;
             print([text("Type "), cmd("help"), text(" for commands, or try "), cmd("ls"), text(", "), cmd("grep attention"), text(" or "), cmd("bibtex"), text(".")]);
             print(keys("Questions in plain English go to ChatHallulu (Ctrl+Alt+I)."), "tm-dim");
         }
-        input.focus();
+    }
+
+    function openPanel(name) {
+        if (panel.hidden) returnFocus = document.activeElement;
+        panel.hidden = false;
+        showTab(name || "terminal");
+        layout();
+        if (tab === "terminal") input.focus();
     }
 
     function closePanel() {
         panel.hidden = true;
-        toggles.forEach(function (t) { t.setAttribute("aria-expanded", "false"); });
+        syncToggles();
         layout();
         if (returnFocus && returnFocus.focus && !panel.contains(returnFocus)) returnFocus.focus();
     }
@@ -61,13 +82,44 @@
     // As in VS Code: Ctrl+` opens the terminal, moves focus to it if it's open elsewhere, and closes it
     // if it has focus.
     function togglePanel() {
-        if (panel.hidden) openPanel();
+        if (panel.hidden || tab !== "terminal") openPanel("terminal");
         else if (!panel.contains(document.activeElement)) input.focus();
         else closePanel();
     }
 
     toggles.forEach(function (t) {
-        t.addEventListener("click", function () { if (panel.hidden) openPanel(); else closePanel(); });
+        t.addEventListener("click", function () {
+            var name = t.getAttribute("data-term-toggle") || "terminal";
+            if (panel.hidden || tab !== name) openPanel(name); else closePanel();
+        });
+    });
+    tabButtons.forEach(function (b, i) {
+        b.addEventListener("click", function () {
+            showTab(b.getAttribute("data-tab"));
+            if (tab === "terminal") input.focus();
+        });
+        b.addEventListener("keydown", function (e) {
+            var step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+            if (!step) return;
+            var next = tabButtons[(i + step + tabButtons.length) % tabButtons.length];
+            showTab(next.getAttribute("data-tab"));
+            next.focus();
+        });
+    });
+
+    // ChatHallulu's labeled answers to general questions, listed under Problems as warnings.
+    document.addEventListener("chatwarning", function (e) {
+        var items = document.getElementById("problems-items");
+        var li = el("li");
+        var icon = el("i", "fa-solid fa-triangle-exclamation");
+        icon.setAttribute("aria-hidden", "true");
+        li.appendChild(icon);
+        li.appendChild(text(e.detail.tag));
+        li.appendChild(text(e.detail.q, "tm-note"));
+        items.appendChild(li);
+        document.getElementById("problems-count").textContent = items.children.length;
+        document.getElementById("problems-none").hidden = true;
+        document.getElementById("problems-list").hidden = false;
     });
     document.getElementById("term-close").addEventListener("click", closePanel);
     document.getElementById("term-clear").addEventListener("click", function () { clear(); input.focus(); });

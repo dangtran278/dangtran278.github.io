@@ -1,17 +1,38 @@
-<!-- Terminal: the bottom panel, as in VS Code. Commands look things up on the site, so they work without
-     ChatHallulu's model; see assets/js/terminal.js. -->
+<!-- The bottom panel, as in VS Code. Its Terminal tab's commands look things up on the site, so they work
+     without ChatHallulu's model; see assets/js/terminal.js. The other tabs show what VS Code shows when
+     there's nothing to report, except Problems, which lists ChatHallulu's labeled answers. -->
 {%- assign p = site.data.profile -%}
-<section class="bottom-panel" id="terminal" hidden aria-label="Terminal"
+<section class="bottom-panel" id="terminal" hidden aria-label="Panel"
          data-corpus="{{ '/assets/chathallulu/corpus.json' | relative_url }}?v={{ site.time | date: '%s' }}"
          data-search="{{ '/assets/chathallulu/search.js' | relative_url }}?v={{ site.time | date: '%s' }}">
     <div class="tm-sash" aria-hidden="true"></div>
     <div class="tm-head">
-        <span class="tm-tab">Terminal</span>
-        <span class="tm-shell"><i class="fa-solid fa-terminal" aria-hidden="true"></i> bash</span>
-        <button class="icon-btn" type="button" id="term-clear" aria-label="Clear the terminal" title="Clear (Ctrl+L)"><i class="fa-regular fa-trash-can"></i></button>
-        <button class="icon-btn" type="button" id="term-close" aria-label="Close the terminal" title="Close (Ctrl+`)"><i class="fa-solid fa-xmark"></i></button>
+        <div class="tm-tabs" role="tablist" aria-label="Panel">
+            <button class="tm-tab" type="button" role="tab" data-tab="problems" aria-controls="panel-problems" aria-selected="false" tabindex="-1">Problems</button>
+            <button class="tm-tab" type="button" role="tab" data-tab="output" aria-controls="panel-output" aria-selected="false" tabindex="-1">Output</button>
+            <button class="tm-tab" type="button" role="tab" data-tab="debug" aria-controls="panel-debug" aria-selected="false" tabindex="-1">Debug Console</button>
+            <button class="tm-tab" type="button" role="tab" data-tab="terminal" aria-controls="term-body" aria-selected="true">Terminal</button>
+            <button class="tm-tab" type="button" role="tab" data-tab="ports" aria-controls="panel-ports" aria-selected="false" tabindex="-1">Ports</button>
+        </div>
+        <span class="tm-shell" data-for="terminal"><i class="fa-solid fa-terminal" aria-hidden="true"></i> bash</span>
+        <button class="icon-btn" type="button" id="term-clear" data-for="terminal" aria-label="Clear the terminal" title="Clear (Ctrl+L)"><i class="fa-regular fa-trash-can"></i></button>
+        <button class="icon-btn" type="button" id="term-close" aria-label="Close the panel" title="Close Panel"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="tm-body" id="term-body">
+    <div class="tm-pane" id="panel-problems" role="tabpanel" data-pane="problems" hidden>
+        <p class="tm-note" id="problems-none">No problems have been detected in the workspace.</p>
+        <div id="problems-list" hidden>
+            <p class="pr-group"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i> ChatHallulu <span class="pr-count" id="problems-count">0</span></p>
+            <ul class="pr-items" id="problems-items"></ul>
+        </div>
+    </div>
+    <div class="tm-pane tm-mono" id="panel-output" role="tabpanel" data-pane="output" hidden>
+        <p>[{{ site.time | date: "%Y-%m-%d %H:%M:%S" }}] Built with Jekyll {{ jekyll.version }} on {{ site.time | date: "%b %-d, %Y" }}.</p>
+    </div>
+    <div class="tm-pane tm-mono" id="panel-debug" role="tabpanel" data-pane="debug" hidden></div>
+    <div class="tm-pane" id="panel-ports" role="tabpanel" data-pane="ports" hidden>
+        <p class="tm-note">No forwarded ports.</p>
+    </div>
+    <div class="tm-body" id="term-body" role="tabpanel" data-pane="terminal">
         <div class="tm-log" id="term-log" role="log" aria-live="polite"></div>
         <form class="tm-line" id="term-form" autocomplete="off">
             <label class="tm-prompt" for="term-input"><span class="tm-user">visitor@dangtran278</span>:<span class="tm-path">~</span>$</label>

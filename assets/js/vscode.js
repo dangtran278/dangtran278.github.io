@@ -198,6 +198,22 @@
         }
     });
 
+    // Figures open full size over the page, in the same tab. Esc, the X or a click outside the image
+    // closes them. Ctrl-, Shift- or middle-click still opens the image in a new tab.
+    var lightbox = document.getElementById("lightbox");
+    var lbImg = lightbox.querySelector("img");
+    editor.addEventListener("click", function (e) {
+        var a = e.target.closest(".media a");
+        if (!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        lbImg.src = a.href;
+        lbImg.alt = a.querySelector("img").alt;
+        lightbox.showModal();
+    });
+    lightbox.addEventListener("click", function (e) {
+        if (e.target !== lbImg) lightbox.close();
+    });
+
     // Minimap: a scaled copy of the editor. Click or drag it to scroll.
     var minimap = document.querySelector(".minimap");
     var mmContent = minimap.querySelector(".mm-content");
@@ -215,7 +231,12 @@
         copy.querySelectorAll("[id]").forEach(function (el) { el.removeAttribute("id"); });
         mmContent.replaceChildren(copy);
         mmContent.style.width = editor.offsetWidth + "px";
-        mmScale = minimap.clientWidth / editor.offsetWidth;
+        // Scale to the text column, not the whole editor, whose right side is empty on a wide window.
+        var col = Array.prototype.filter.call(editor.querySelectorAll(".file > :not(.file-head)"), function (el) {
+            return el.offsetWidth > 0;
+        })[0];
+        var used = col ? col.getBoundingClientRect().right - editor.getBoundingClientRect().left + 32 : editor.offsetWidth;
+        mmScale = minimap.clientWidth / Math.min(editor.offsetWidth, used);
         mmContent.style.transform = "scale(" + mmScale + ")";
         updateMinimap();
     }

@@ -221,11 +221,13 @@
         withEmail(subRow(cls || "t-dim"), text);
     }
 
-    // Labeled answers to general questions count as warnings in the status bar, next to the 0 errors.
+    // Labeled answers to general questions count as warnings in the status bar, next to the 0 errors,
+    // and the terminal panel lists them under Problems.
     var warnings = 0;
     var sbWarn = document.getElementById("sb-warn");
     var sbProblems = document.getElementById("sb-problems");
-    function countWarning() {
+    function countWarning(q, tag) {
+        document.dispatchEvent(new CustomEvent("chatwarning", { detail: { q: q, tag: tag } }));
         if (!sbWarn) return;
         warnings++;
         sbWarn.textContent = warnings;
@@ -499,7 +501,7 @@
         } else if (m.kind === "play") {
             withEmail(answerRow("play"), m.answer);
             note(m.tag, "t-halluc");
-            countWarning();
+            countWarning(current.q, m.tag);
         } else {
             withEmail(answerRow("say"), m.answer);
             // Every answer the model drafted about Dang gets the row; fixed lines and chat don't.
