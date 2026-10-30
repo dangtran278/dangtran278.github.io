@@ -3,7 +3,7 @@
 // that keyword search (BM25) and an embedding model rank highest, then each sentence is checked against
 // those passages. Off-topic questions get a labeled made-up answer, and some get a fixed reply.
 // Everything runs in the visitor's browser; nothing typed here is sent anywhere.
-import stem from './porter2.js';
+import { bm25Index } from './search.js';
 import { env, AutoModel, AutoTokenizer, AutoModelForCausalLM, TextStreamer, InterruptableStoppingCriteria, LogitsProcessor }
     from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1';
 
@@ -18,31 +18,8 @@ let stopper = null;       // the running generation, so Esc can interrupt it
 
 const post = (type, data) => self.postMessage({ type, ...data });
 
-// ---- Retrieval: BM25 with hidden search words, fused with embeddings ----
-const STOP = new Set("he him his she her we our me my use used using a an and are as at be by did do does for from has have how i in is it its of on or that the their them they this to was what when where which who why with you your dang dang's tran quang thien".split(' '));
-const toks = s => s.toLowerCase().split(/[^a-z0-9+#.-]+/).map(w => w.replace(/^[.-]+|[.-]+$/g, '')).filter(w => w && !STOP.has(w)).map(stem);
-let docs, avgdl, df;
-
-function index() {
-    docs = C.passages.map(c => toks([c.section, c.title, c.text, C.keys[c.section] || '', C.titleKeys[c.title] || ''].join(' ')));
-    avgdl = docs.reduce((n, d) => n + d.length, 0) / docs.length;
-    df = {};
-    docs.forEach(d => new Set(d).forEach(t => df[t] = (df[t] || 0) + 1));
-}
-
-function bm25(query, k1 = 1.2, b = 0.75) {
-    const q = toks(query), N = docs.length;
-    return docs.map((d, i) => {
-        let s = 0;
-        for (const t of new Set(q)) {
-            const f = d.filter(x => x === t).length;
-            if (!f) continue;
-            const idf = Math.log(1 + (N - df[t] + 0.5) / (df[t] + 0.5));
-            s += idf * f * (k1 + 1) / (f + k1 * (1 - b + b * d.length / avgdl));
-        }
-        return { i, s };
-    }).sort((a, b) => b.s - a.s);
-}
+// ---- Retrieval: BM25 (search.js) with hidden search words, fused with embeddings ----
+let bm25;
 
 const embed = async texts => (await embModel(embTok(texts, { padding: true, truncation: true }))).sentence_embedding.normalize(2, -1).tolist();
 const dot = (a, b) => a.reduce((s, x, k) => s + x * b[k], 0);
@@ -334,7 +311,7 @@ async function load({ corpusUrl, dtype, keep }) {
     const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     // An empty term would match every question, so blanks from the build are dropped.
     SITE_TERMS = new RegExp(`\\b(${C.siteTerms.map(s => s.trim()).filter(Boolean).map(esc).join('|')})\\b`, 'i');
-    index();
+    bm25 = bm25Index(C);
     embTok = await AutoTokenizer.from_pretrained(EMBED_MODEL);
     embModel = await AutoModel.from_pretrained(EMBED_MODEL, { dtype: 'q8', device: 'webgpu', progress_callback: progress });
     tokenizer = await AutoTokenizer.from_pretrained(CHAT_MODEL);

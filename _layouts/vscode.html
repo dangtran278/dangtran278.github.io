@@ -131,6 +131,7 @@
             <span class="sb-item" title="Last updated {{ site.time | date: '%B %-d, %Y' }}"><i class="fa-solid fa-rotate"></i> Updated <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: "%b %Y" }}</time></span>
         </div>
         <div class="sb-right">
+            <button class="sb-item sb-btn desk-only" type="button" data-term-toggle aria-controls="terminal" aria-expanded="false" title="Toggle Terminal (Ctrl+`)"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Terminal</button>
             <button class="sb-item sb-btn desk-only" type="button" data-chat-toggle aria-controls="chat-panel" aria-expanded="false" title="Open ChatHallulu (Ctrl+Alt+I)"><span class="t-dizzy" aria-hidden="true"></span> ChatHallulu</button>
             <span class="sb-item desk-only" id="sb-pos">Ln 1, Col 1</span>
             <span class="sb-item desk-only">UTF-8</span>
@@ -138,6 +139,7 @@
         </div>
     </footer>
 
+    {% include vscode/terminal.html %}
     {% include vscode/chat.html %}
 
     <div class="quickopen" id="quickopen" hidden>
@@ -157,6 +159,7 @@
     </div>
 
     <script src="{{ '/assets/js/vscode.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+    <script src="{{ '/assets/js/terminal.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
     <script src="{{ '/assets/chathallulu/chat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 </body>
 </html>

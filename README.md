@@ -56,6 +56,11 @@ node ask.js       # a few minutes: asks every question in the real chat
 
 `ask.js` drives an installed Google Chrome. To use Edge instead, set `BROWSER=msedge` first.
 
+## Terminal
+
+`` Ctrl+` `` (or Terminal in the status bar) opens a terminal at the bottom. Its commands include: `ls`, `open research`, `grep attention` (the same keyword search ChatHallulu
+uses), `resume`, `cv`, `contact` and `bibtex`. Type `help` for the list.
+
 ## Credits
 
 - Site structure: [academic-homepage](https://github.com/luost26/academic-homepage) by Shitong Luo, MIT.

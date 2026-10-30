@@ -16,6 +16,29 @@
     var sbPos = document.getElementById("sb-pos");
     var LINES = "h2, h3, p, li, dt";
 
+    // The visitor's OS. On a Mac, shortcut labels use Mac keys. The remote indicator explains why the
+    // terminal runs bash: WSL on Windows, SSH on a Mac; a Linux terminal is local, so Linux gets none.
+    var platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent;
+    var OS = /mac/i.test(platform) ? "mac" : /win/i.test(platform) ? "win" : "linux";
+    window.keyLabel = function (s) {
+        return OS !== "mac" ? s : s.replace(/Ctrl K/g, "⌘K").replace(/Ctrl\+/g, "⌃").replace(/Alt\+/g, "⌥");
+    };
+    if (OS === "mac") {
+        Array.prototype.slice.call(document.querySelectorAll("kbd, [title*='Ctrl']")).forEach(function (el) {
+            if (el.title) el.title = keyLabel(el.title);
+            if (el.tagName === "KBD") el.textContent = keyLabel(el.textContent);
+        });
+    }
+    var remote = OS === "win" ? "WSL: Ubuntu" : OS === "mac" ? "SSH: " + location.hostname : "";
+    if (remote) {
+        var sbRemote = document.createElement("span");
+        sbRemote.className = "sb-item sb-remote desk-only";
+        sbRemote.title = "Editing on " + remote;
+        sbRemote.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3.5 5.5 7.5 9.5 3.5 13.5M12.5 1.5 8.5 5.5 12.5 9.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        sbRemote.appendChild(document.createTextNode(remote));
+        document.querySelector(".sb-left").insertBefore(sbRemote, document.querySelector(".sb-left").firstChild);
+    }
+
     // Bottom edge of the sticky chrome; content above it is hidden.
     function chromeBottom() {
         var el = breadcrumbs && breadcrumbs.offsetHeight ? breadcrumbs : tabStrip;
@@ -197,9 +220,10 @@
         updateMinimap();
     }
 
-    // Between the sticky chrome and the status bar.
+    // Between the sticky chrome and the status bar, or the terminal when it's open.
     function visibleHeight() {
-        return window.innerHeight - chromeBottom() - document.querySelector(".statusbar").offsetHeight;
+        var term = parseFloat(getComputedStyle(root).getPropertyValue("--term-h")) || 0;
+        return window.innerHeight - chromeBottom() - document.querySelector(".statusbar").offsetHeight - term;
     }
 
     function editorTop() {
@@ -256,7 +280,7 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     window.addEventListener("load", renderMinimap);
-    // ChatHallulu's side bar changes the editor's width as it opens, closes or is dragged.
+    // ChatHallulu's side bar and the terminal change the editor's size as they open, close or are dragged.
     document.addEventListener("chatresize", onResize);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderMinimap);
 

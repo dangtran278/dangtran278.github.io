@@ -23,6 +23,7 @@
     var welcome = log.querySelector(".t-welcome").cloneNode(true);
     var EMAIL = panel.getAttribute("data-email");
     var phone = window.matchMedia("(max-width: 767.98px)");
+    var keys = window.keyLabel || function (s) { return s; };  // Mac key names, from vscode.js
 
     // ---- Side bar: open, close, resize ----
     // It takes about 30% of the window, or the width the visitor dragged it to, but leaves the editor
@@ -599,7 +600,8 @@
         b.appendChild(table(COMMANDS));
         b.appendChild(table([
             ["Enter", "send"], ["Shift+Enter", "new line"], ["↑ ↓", "earlier questions"],
-            ["Esc", "interrupt an answer"], ["Ctrl+Alt+I", "open or close ChatHallulu"]
+            ["Esc", "interrupt an answer"], [keys("Ctrl+Alt+I"), "open or close ChatHallulu"],
+            [keys("Ctrl+`"), "the terminal: search, resume, contact, BibTeX, no model needed"]
         ]));
     }
 

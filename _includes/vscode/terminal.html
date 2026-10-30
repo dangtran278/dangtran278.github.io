@@ -1,0 +1,53 @@
+<!-- Terminal: the bottom panel, as in VS Code. Commands look things up on the site, so they work without
+     ChatHallulu's model; see assets/js/terminal.js. -->
+{%- assign p = site.data.profile -%}
+<section class="bottom-panel" id="terminal" hidden aria-label="Terminal"
+         data-corpus="{{ '/assets/chathallulu/corpus.json' | relative_url }}?v={{ site.time | date: '%s' }}"
+         data-search="{{ '/assets/chathallulu/search.js' | relative_url }}?v={{ site.time | date: '%s' }}">
+    <div class="tm-sash" aria-hidden="true"></div>
+    <div class="tm-head">
+        <span class="tm-tab">Terminal</span>
+        <span class="tm-shell"><i class="fa-solid fa-terminal" aria-hidden="true"></i> bash</span>
+        <button class="icon-btn" type="button" id="term-clear" aria-label="Clear the terminal" title="Clear (Ctrl+L)"><i class="fa-regular fa-trash-can"></i></button>
+        <button class="icon-btn" type="button" id="term-close" aria-label="Close the terminal" title="Close (Ctrl+`)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="tm-body" id="term-body">
+        <div class="tm-log" id="term-log" role="log" aria-live="polite"></div>
+        <form class="tm-line" id="term-form" autocomplete="off">
+            <label class="tm-prompt" for="term-input"><span class="tm-user">visitor@dangtran278</span>:<span class="tm-path">~</span>$</label>
+            <input id="term-input" type="text" spellcheck="false" autocapitalize="off" aria-label="Terminal command">
+        </form>
+    </div>
+    {%- comment -%} BibTeX for each paper, built from _publications. Names become "Last, First". {%- endcomment -%}
+    {%- capture nl %}
+{% endcapture -%}
+    {%- assign pubs = site.publications | sort: "date" | reverse -%}
+    {%- assign bibs = "" | split: "" -%}
+    {%- for item in pubs -%}
+        {%- capture authors -%}{% for a in item.authors %}{% assign n = a | remove: "*" | strip %}{% assign last = n | split: " " | last %}{% assign given_len = n.size | minus: last.size | minus: 1 %}{% unless forloop.first %} and {% endunless %}{{ last }}{% if given_len > 0 %}, {{ n | slice: 0, given_len }}{% endif %}{% endfor %}{%- endcapture -%}
+        {%- assign first_author = item.authors | first | remove: "*" | strip | split: " " | last | downcase -%}
+        {%- assign first_word = item.title | split: ":" | first | split: " " | first | downcase -%}
+        {%- assign year = item.date | date: "%Y" -%}
+        {%- if item.pub_last contains "arXiv:" -%}
+        {%- capture bib -%}@misc{{ "{" }}{{ first_author }}{{ year }}{{ first_word }},{{ nl }}  title         = {{ "{" }}{{ item.title }}},{{ nl }}  author        = {{ "{" }}{{ authors }}},{{ nl }}  year          = {{ "{" }}{{ year }}},{{ nl }}  eprint        = {{ "{" }}{{ item.pub_last | remove: "arXiv:" | strip }}},{{ nl }}  archivePrefix = {arXiv}{% if item.links.arXiv %},{{ nl }}  url           = {{ "{" }}{{ item.links.arXiv }}}{% endif %}{{ nl }}}{%- endcapture -%}
+        {%- else -%}
+        {%- capture bib -%}@inproceedings{{ "{" }}{{ first_author }}{{ year }}{{ first_word }},{{ nl }}  title     = {{ "{" }}{{ item.title }}},{{ nl }}  author    = {{ "{" }}{{ authors }}},{{ nl }}  booktitle = {{ "{" }}{{ item.pub }}},{{ nl }}  year      = {{ "{" }}{{ year }}}{{ nl }}}{%- endcapture -%}
+        {%- endif -%}
+        {%- assign bibs = bibs | push: bib -%}
+    {%- endfor %}
+    <script type="application/json" id="term-data">
+    {
+        "email": {{ p.email | jsonify }},
+        "links": [
+            ["scholar", {{ "https://scholar.google.com/citations?user=" | append: p.gscholar | jsonify }}],
+            ["github", {{ "https://github.com/" | append: p.github | jsonify }}],
+            ["linkedin", {{ "https://www.linkedin.com/in/" | append: p.linkedin | jsonify }}]
+        ],
+        "cv": {{ p.cv_link | relative_url | jsonify }},
+        "resume": {{ p.resume_link | relative_url | jsonify }},
+        "files": [{% for f in site.data.files %}{"id": {{ f.id | jsonify }}, "name": {{ f.name | jsonify }}}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        "projects": [{% for x in site.data.projects %}{"id": {{ x.anchor | jsonify }}, "name": {{ x.file | jsonify }}, "title": {{ x.title | jsonify }}}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        "bibtex": {{ bibs | jsonify }}
+    }
+    </script>
+</section>
