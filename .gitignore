@@ -16,3 +16,6 @@ job_search_edits_2026-10-24.md
 _tpl/
 _draft_v1/
 assets/images/photos/portrait.jpg
+
+# ChatHallulu test dependencies (npm install in tools/chathallulu)
+node_modules/

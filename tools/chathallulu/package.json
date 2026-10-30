@@ -1,0 +1,12 @@
+{
+  "name": "chathallulu-tests",
+  "private": true,
+  "description": "Tests for ChatHallulu, the chatbot on the site. Not part of the site build.",
+  "scripts": {
+    "route": "node route.js",
+    "ask": "node ask.js"
+  },
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  }
+}

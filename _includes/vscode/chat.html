@@ -1,0 +1,41 @@
+<!-- ChatHallulu: a chatbot in its own side bar on the right, where VS Code keeps its chat view.
+     The model runs in the visitor's browser; see assets/chathallulu/. -->
+<aside class="chatbar" id="chat-panel" hidden aria-label="ChatHallulu"
+       data-worker="{{ '/assets/chathallulu/worker.js' | relative_url }}?v={{ site.time | date: '%s' }}"
+       data-corpus="{{ '/assets/chathallulu/corpus.json' | relative_url }}?v={{ site.time | date: '%s' }}"
+       data-email="{{ site.data.profile.email }}">
+    <div class="chat-sash" aria-hidden="true"></div>
+    <div class="chat-head">
+        <span class="t-dizzy" aria-hidden="true"></span>
+        <span class="chat-title">ChatHallulu</span>
+        <span class="chat-size" title="Qwen3.5-0.8B, a small model that runs in your browser">0.8B</span>
+        <button class="icon-btn" type="button" id="chat-close" aria-label="Close ChatHallulu" title="Close (Ctrl+Alt+I)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="term" id="chat-term">
+        <div class="term-log" id="chat-log" role="log" aria-live="polite">
+            <div class="t-welcome">
+                <span class="t-dizzy t-logo" aria-hidden="true"></span>
+                <p class="t-name">ChatHallulu</p>
+                <p>I answer questions about Dang from this site and show what I read. I'll chat about anything else too, and label answers that aren't from this site.</p>
+                <ul class="t-try" aria-label="Questions to try">
+                    <li><button type="button">What is Dang's research about?</button></li>
+                    <li><button type="button">What did Dang do at Adobe?</button></li>
+                    <li><button type="button">Tell me a joke.</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="t-spinner" id="chat-spinner" hidden><span class="t-dizzy"></span> <span class="t-verb"></span> <span class="t-dim"></span></div>
+    </div>
+    <div class="t-dock">
+        <ul class="t-suggest" id="chat-suggest" hidden></ul>
+        <form class="t-input" id="chat-form" autocomplete="off">
+            <textarea id="chat-input" rows="1" spellcheck="false" aria-label="Ask ChatHallulu" placeholder="Ask about Dang, or type / for commands"></textarea>
+            <div class="t-bar">
+                <span class="t-state" id="chat-hint" hidden></span>
+                <span class="t-state" id="chat-status-line"><span class="t-led" aria-hidden="true"></span><span id="chat-status">model not loaded</span></span>
+                <button class="t-btn" type="button" id="chat-slash" aria-label="Commands" title="Commands">/</button>
+                <button class="t-btn t-send" type="submit" id="chat-send" aria-label="Send" title="Send (Enter)"><i class="fa-solid fa-arrow-up"></i></button>
+            </div>
+        </form>
+    </div>
+</aside>

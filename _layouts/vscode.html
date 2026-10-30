@@ -3,7 +3,7 @@
 <!-- Content model from academic-homepage: https://github.com/luost26/academic-homepage -->
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
     <title>{{ site.data.profile.primary_name }}</title>
     <meta name="description" content="{{ site.description | strip }}">
     <meta name="author" content="{{ site.data.profile.primary_name }}">
@@ -33,7 +33,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ '/assets/css/vscode.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/vscode.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+    <link rel="stylesheet" href="{{ '/assets/chathallulu/chat.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
     <a class="skip" href="#editor">Skip to content</a>
@@ -49,6 +50,9 @@
             <kbd>Ctrl K</kbd>
         </button>
         <div class="tb-actions">
+            <button class="tb-chat" type="button" data-chat-toggle aria-controls="chat-panel" aria-expanded="false" title="Ask ChatHallulu about Dang (Ctrl+Alt+I)">
+                <span class="t-dizzy" aria-hidden="true"></span><span class="tb-label">Ask ChatHallulu</span>
+            </button>
             <button class="icon-btn qo-mobile" type="button" data-quickopen aria-label="Go to a section">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -123,15 +127,18 @@
     <footer class="statusbar">
         <div class="sb-left">
             <a class="sb-item" target="_blank" rel="noopener" href="https://github.com/{{ site.data.profile.github }}/{{ site.data.profile.github }}.github.io" title="Source of this site"><i class="fa-solid fa-code-branch"></i> main</a>
-            <span class="sb-item desk-only"><i class="fa-regular fa-circle-xmark"></i> 0 <i class="fa-solid fa-triangle-exclamation"></i> 0</span>
+            <span class="sb-item desk-only" id="sb-problems" title="No problems"><i class="fa-regular fa-circle-xmark"></i> 0 <i class="fa-solid fa-triangle-exclamation"></i> <span id="sb-warn">0</span></span>
             <span class="sb-item" title="Last updated {{ site.time | date: '%B %-d, %Y' }}"><i class="fa-solid fa-rotate"></i> Updated <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: "%b %Y" }}</time></span>
         </div>
         <div class="sb-right">
+            <button class="sb-item sb-btn desk-only" type="button" data-chat-toggle aria-controls="chat-panel" aria-expanded="false" title="Open ChatHallulu (Ctrl+Alt+I)"><span class="t-dizzy" aria-hidden="true"></span> ChatHallulu</button>
             <span class="sb-item desk-only" id="sb-pos">Ln 1, Col 1</span>
             <span class="sb-item desk-only">UTF-8</span>
             <span class="sb-item desk-only" id="sb-lang">Markdown</span>
         </div>
     </footer>
+
+    {% include vscode/chat.html %}
 
     <div class="quickopen" id="quickopen" hidden>
         <div class="qo-box" role="dialog" aria-modal="true" aria-label="Go to a section">
@@ -149,6 +156,7 @@
         </div>
     </div>
 
-    <script src="{{ '/assets/js/vscode.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/vscode.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+    <script src="{{ '/assets/chathallulu/chat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 </body>
 </html>

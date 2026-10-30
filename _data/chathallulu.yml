@@ -1,0 +1,107 @@
+# ChatHallulu, the chatbot in its own side bar. Most of what it knows is built from the other
+# data files by assets/chathallulu/corpus.json. This file holds the rest: passages written for the
+# bot, the hidden search words, and the fixed replies.
+
+# The bio in profile.yml, retold in the third person (a small model answers better from "Dang
+# studies..." than from "I study..."). Keep these in step with short_bio.
+about:
+- Dang studies trustworthy machine learning. A model's answer deserves trust only when we can check it against the evidence behind it. His research asks when such a check is possible, and what a model should do when it is not. He has pursued these questions in vision-language models, information retrieval, causal discovery, and medical AI, through interpretability, benchmark design, and closed-form analysis.
+- Dang earned his M.S. in Computer Science at the University of Massachusetts Amherst in 2026. At Adobe Research, he designed MultAttnAttrib, a training-free method that traces a vision-language model's answer back to the text and images of a long document.
+# Its own passage: next to the Adobe sentence, the model moved causal discovery to Adobe.
+- At UMass Amherst, Dang now works on abstention in vision-language models and on causal discovery.
+- In three industry internships Dang built retrieval, OCR and forecasting systems. He is now developing Ctrl F-ilm, a search engine for moments in video, deployed on AWS.
+
+# Passages that are not on the page. Visitors see them as .chathallulu/notes.md when the bot cites one.
+# The research ones follow Dang's own pitch; keep its credit split (the retrieval-heads idea is
+# Samyadeep Basu's, the UMass method is the lab's).
+notes:
+- section: ChatHallulu
+  title: About ChatHallulu
+  text: >-
+    ChatHallulu is the chatbot on Dang's website. The name is a pun on hallucination, which is what
+    small language models do. It runs Qwen3.5-0.8B, a 0.8-billion-parameter model from Alibaba's Qwen
+    team, with transformers.js on WebGPU, entirely inside the visitor's browser. Nothing typed into it
+    is sent to a server. It works only on desktop and laptop computers, because the model is too big
+    and too slow for phones and tablets. To answer a question about Dang, it searches this site with
+    BM25 keyword search and the granite-embedding-small-english-r2 embedding model from IBM, reads the
+    top three passages,
+    and answers from them in at most two sentences. It then checks each sentence against those passages.
+    Its prompt is not secret: it is in this page's source code. It chats about other things too. Its answers
+    to general questions do not come from this site, so they are labeled as possibly hallucinated. It can be wrong.
+- section: Research
+  anchor: research
+  title: Research questions
+  text: >-
+    Dang's research is about how multimodal models use their sources: which source an answer actually
+    came from, and what a model should do when its sources disagree or it can't read them well. Models
+    now answer from text, images, tables and their own memory at once, and they cite sources. But a
+    citation doesn't show that the model used that source: it may have answered from memory and cited
+    something that happens to agree. His first question is how to tell which source an answer really
+    depends on. His second is about conflict: when an image and its text disagree, models often miss it
+    and almost never abstain. He thinks part of the reason is that they misread the figure in the first
+    place, so he wants models to judge how well they read each source before weighing it.
+- section: Research
+  anchor: research
+  title: Research results so far
+  text: >-
+    At Adobe Research, Dang built a benchmark for citing evidence in mixed text-and-image documents. The
+    team's first method read the model's retrieval heads, an idea proposed by his mentor Samyadeep Basu,
+    and it lost to simply prompting the model. Dang found that many of those heads were attention sinks.
+    After he scored heads causally instead, the method beat every prompting and RAG setup of the same
+    model and ran several times faster. At UMass Amherst, he extends his lab's conflict-detection method
+    to real-world benchmarks. It works on news photos with mismatched captions. It finds nothing on
+    scientific claims checked against figures, because the models never linked the figure to the claim.
+
+# Hidden search words. The keyword search sees them; the chat model never does.
+# By section (every passage in it) and by passage title.
+keys:
+  Profile: contact email reach located location live city based
+  Contact: contact email reach located location live city based phone
+  Industry Experience: internship intern job work worked company employer experience
+  Publications: paper papers publish published publication
+  Research: research paper study working advisor advised mentor professor supervisor lab experience
+  Projects: project projects built build side
+  Skills: skill know tool tools stack tech technology language languages framework
+  Education and Honors: school university
+  News: recent latest new
+  ChatHallulu: chathallulu bot chatbot assistant model llm prompt name who are you yourself built work private data server
+title_keys:
+  Education: degree degrees study studied student education college undergrad undergraduate graduate grad bachelor master masters phd doctorate gpa grade finish finished
+  Honors and Awards: award awards honor scholarship prize won
+  Research questions: about focus interest interests interested topic topics area problem problems question questions goal goals aim
+  Teaching: teach taught teaching class classes course TA UCA assistant
+  Current projects: now current currently present ongoing working
+
+# Names that mark a question as about Dang even without "he" or "Dang" in it. corpus.json already adds
+# every company, project, paper, lab, school and award name from the data files, so list only the short
+# forms people would type ("adobe" for Adobe Research) and names that appear only inside entries.
+site_terms: [multattreval, f-ilm, campuswire, fpt, cb/i, adobe, umass, amherst, brats, eacl, health hack, bionlp]
+
+# Fixed replies, written by hand so they can't be made up. {email} becomes the address in profile.yml.
+lines:
+  idk: "This site doesn't say, and I'm trying to quit making things up. Dang can tell you: {email}."
+  sensitive: "Dang didn't put that on his website, and I'm not about to guess. Email him if it matters: {email}."
+  refuse: "I'll pass on that one. I'm a 0.8B model on a portfolio site; I know my limits."
+  contact: "Email him at {email}. He's in {location}, and his GitHub, LinkedIn and Google Scholar are linked on this page."
+  crisis: "That sounds really heavy, and I'm a small chatbot who can't help with it. Please tell someone you trust, or someone near you, right now."
+  privacy: "No. I run entirely in your browser, so what you type never leaves this tab. Not even Dang can read it, which is probably for the best."
+  play_tag: "Possibly hallucinating (not from Dang's site)."
+  # Questions about the bot itself. The model's own answers to these were vague or wrong.
+  bot_who: "I'm ChatHallulu, the chatbot on Dang's website. I answer questions about Dang from this site and show what I read. I'll chat about anything else too, and label answers that aren't from this site."
+  bot_can: "Ask about Dang: his research, papers, jobs and internships, projects, education, skills, or how to reach him. I answer those from this site and show my sources. I'll chat about anything else, and label answers that aren't from this site."
+  # {fact_rules} and {play_rules} become the two prompts in worker.js, so this can't go stale.
+  bot_prompt: "No secret. For questions about Dang, I'm told: \"{fact_rules}\" For everything else: \"{play_rules}\" The rest of me is in this page's source code."
+  bot_how: "I run Qwen3.5-0.8B, a 0.8-billion-parameter model, inside your browser, so nothing you type leaves this tab. For a question about Dang, I search this site, read the top three passages, answer in two sentences at most, then check each sentence against what I read. /about has the details."
+  # Questions the model answered badly about Dang. {open_to} is the line under his name (profile.yml).
+  looking: "The line under his name says \"{open_to}\". Anything more specific isn't on the site, so ask him: {email}."
+  # Keep "work" in step with short_bio in profile.yml.
+  work: "Right now he works on abstention in vision-language models and on causal discovery at UMass Amherst, and he's building Ctrl F-ilm, a search engine for moments in video. Before that, he designed MultAttnAttrib at Adobe Research and built retrieval, OCR and forecasting systems in three industry internships. Ask about any of those for details."
+  judge: "That's a judgment call, and I'm a 0.8B model on his own website, so I'm no judge. Ask what he did instead, like \"What did Dang do at Adobe?\" or \"What are his skills?\", and decide for yourself."
+  # Small talk. Each question starts fresh, so follow-ups get told to ask in full.
+  dang: "Dang. Great name. Wish I had one. Ask me about his research, jobs, projects or skills."
+  hello: "Hi. Ask me about Dang's research, jobs, projects or skills, or just chat."
+  bye: "Bye. I'd say I'll remember you, but I don't even remember your last question."
+  thanks: "You're welcome. That's more thanks than a 0.8B model usually gets."
+  followup: "I have the memory of a goldfish, but a smaller one. Ask the whole question and I'll try again, like \"What else did Dang do at Adobe?\""
+  how_are_you: "Fine. My whole life is one browser tab, and so far it's going well. Ask me about Dang's research, jobs, projects or skills."
+  converse: "Sort of. I forget each question as soon as I've answered it, so it's more a series of first meetings than a conversation. Ask about Dang and I'll answer from his site."

@@ -1,0 +1,106 @@
+---
+layout: null
+---
+{%- comment -%}
+What ChatHallulu knows: one passage per entry on the page, in the order the page shows them, plus
+overviews that list each section's entries, plus the bot's own notes in _data/chathallulu.yml.
+Passages are plain text in the third person; the line layout follows the page.
+{%- endcomment -%}
+{%- capture nl %}
+{% endcapture -%}
+{%- assign p = site.data.profile -%}
+{%- assign bot = site.data.chathallulu -%}
+{%- assign f_about = site.data.files | where: "id", "about" | first -%}
+{%- assign f_skills = site.data.files | where: "id", "skills" | first -%}
+{%- assign f_news = site.data.files | where: "id", "news" | first -%}
+{%- assign f_pubs = site.data.files | where: "id", "publications" | first -%}
+{%- assign f_research = site.data.files | where: "id", "research" | first -%}
+{%- assign f_exp = site.data.files | where: "id", "experience" | first -%}
+{%- assign f_edu = site.data.files | where: "id", "education" | first -%}
+{%- assign location = p.positions | last -%}
+{%- assign location = location.name -%}
+{
+"email": {{ p.email | jsonify }},
+"passages": [
+{%- capture t -%}{{ p.primary_name }}{% for x in p.positions %}; {{ x.name }}{% endfor %}.{% if p.open_to %} {{ p.open_to }}.{% endif %} Email: {{ p.email }}. Links: Google Scholar, GitHub, LinkedIn, CV, Resume.{%- endcapture %}
+{"section": "Profile", "title": "Profile", "anchor": "about", "file": {{ f_about.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- for a in bot.about %}
+{"section": "About", "title": "About {{ forloop.index }}", "anchor": "about", "file": {{ f_about.name | jsonify }}, "text": {{ a | strip | jsonify }}},
+{%- endfor %}
+{%- capture t -%}{% for s in p.skills %}{% unless forloop.first %}{{ nl }}{% endunless %}{{ s.name }}: [{{ s.items }}]{% endfor %}{%- endcapture %}
+{"section": "Skills", "title": "Skills", "anchor": "skills", "file": {{ f_skills.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- assign news = site.news | sort: "date" | reverse | slice: 0, site.data.display.homepage.num_news -%}
+{%- capture t -%}{% for n in news %}{% unless forloop.first %}{{ nl }}{% endunless %}{{ n.date | date: "%Y-%m" }}{{ nl }}{{ n.title | strip_html | strip }}{% endfor %}{%- endcapture %}
+{"section": "News", "title": "News", "anchor": "news", "file": {{ f_news.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- assign pubs = site.publications | sort: "date" | reverse -%}
+{%- for item in pubs -%}
+{%- assign authors = item.authors | join: ", " -%}
+{%- capture t -%}{{ item.title }}{{ nl }}{{ authors }}{% if authors contains "*" %} (* equal contribution){% endif %}{{ nl }}{{ item.pub }}{{ item.pub_post }} {{ item.pub_last }}{{ nl }}{{ item.abstract | strip }}{%- endcapture %}
+{"section": "Publications", "title": {{ item.title | jsonify }}, "anchor": {{ item.anchor | jsonify }}, "file": {{ f_pubs.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- endfor -%}
+{%- capture t -%}Current projects{{ nl }}2026 - present{% for item in site.data.research.ongoing %}{{ nl }}{{ item.title }} ({{ item.status }}){{ nl }}{{ item.where }}{% endfor %}{%- endcapture %}
+{"section": "Research", "title": "Current projects", "anchor": "research", "file": {{ f_research.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- for item in site.data.research.projects -%}
+{%- capture t -%}{{ item.title }}{% if item.status %}{{ nl }}{{ item.status }}{% endif %}{{ nl }}{{ item.date }}{{ nl }}{{ item.where }}{% for x in item.points %}{{ nl }}{{ x }}{% endfor %}{{ nl }}keywords: [{{ item.keywords }}]{%- endcapture %}
+{"section": "Research", "title": {{ item.title | jsonify }}, "anchor": "research", "file": {{ f_research.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- endfor -%}
+{%- for item in site.data.experience -%}
+{%- capture t -%}Company: {{ item.name }}{{ nl }}Dates: {{ item.date }}{{ nl }}Job title: {{ item.position }}{{ nl }}Location: {{ item.place }}{% if item.stack %}{{ nl }}Stack: {{ item.stack }}{% endif %}{% for x in item.points %}{{ nl }}{{ x | replace: "&times;", "×" }}{% endfor %}{%- endcapture %}
+{"section": "Industry Experience", "title": {{ item.name | jsonify }}, "anchor": "experience", "file": {{ f_exp.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- endfor -%}
+{%- for item in site.data.projects -%}
+{%- capture t -%}{{ item.title }}{{ nl }}{{ item.date }}{% if item.stack %}{{ nl }}stack: [{{ item.stack }}]{% endif %}{% for x in item.points %}{{ nl }}{{ x }}{% endfor %}{{ nl }}keywords: [{{ item.keywords }}]{%- endcapture %}
+{"section": "Projects", "title": {{ item.title | jsonify }}, "anchor": {{ item.anchor | jsonify }}, "file": {{ "projects/" | append: item.file | jsonify }}, "text": {{ t | jsonify }}},
+{%- endfor -%}
+{%- capture t -%}Dang's degrees, newest first:{{ nl }}{% for item in p.education %}{% unless forloop.first %}{{ nl }}{% endunless %}{{ item.name }}{{ nl }}{{ item.date }}{{ nl }}{{ item.position | replace: "<br/> ", nl | replace: "<br/>", nl | strip_html | strip }}{% endfor %}{%- endcapture %}
+{"section": "Education and Honors", "title": "Education", "anchor": "education", "file": {{ f_edu.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- comment -%} With the short form, since visitors type "UCA". {%- endcomment -%}
+{%- capture t -%}Dang's teaching roles, one per line:{% for item in p.teaching %}{{ nl }}{{ item.name | replace: "Course Assistant", "Course Assistant (UCA)" }} ({{ item.date }}){% if item.position %}: {{ item.position }}{% endif %}{% endfor %}{%- endcapture %}
+{"section": "Education and Honors", "title": "Teaching", "anchor": "education", "file": {{ f_edu.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- capture t -%}Dang's honors and awards, {{ p.awards.size }} in all, one per line:{% for item in p.awards %}{{ nl }}{{ item.name }} ({{ item.date }}){% endfor %}{%- endcapture %}
+{"section": "Education and Honors", "title": "Honors and Awards", "anchor": "education", "file": {{ f_edu.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- assign interns = site.data.experience | where_exp: "e", "e.position contains 'Intern'" -%}
+{%- assign companies = site.data.experience | map: "name" | uniq -%}
+{%- capture t -%}Dang has held {{ site.data.experience.size }} industry positions at {{ companies.size }} companies, including {{ interns.size }} internships: {% for item in site.data.experience %}{{ item.position }} at {{ item.name }} ({{ item.date }}, {{ item.place }}){% unless forloop.last %}; {% endunless %}{% endfor %}.{%- endcapture %}
+{"section": "Industry Experience", "title": "Overview", "anchor": "experience", "file": {{ f_exp.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- capture t -%}Dang has {{ site.data.projects.size }} projects on this site: {% for item in site.data.projects %}{{ item.title }} ({{ item.date }}){% unless forloop.last %}; {% endunless %}{% endfor %}.{%- endcapture %}
+{"section": "Projects", "title": "Overview", "anchor": "projects", "file": "projects/", "text": {{ t | jsonify }}},
+{%- capture t -%}Dang's research work on this site: {% for item in site.data.research.projects %}{{ item.title }} ({{ item.date }}{% if item.status %}, {{ item.status }}{% endif %}){% unless forloop.last %}; {% endunless %}{% endfor %}. Papers on this site: {% for item in pubs %}{{ item.title }} ({{ item.pub }}{{ item.pub_post | remove: "." }}{% if item.pub_post contains "under review" %}, so not yet accepted{% endif %}){% unless forloop.last %}; {% endunless %}{% endfor %}. Current projects: {% for item in site.data.research.ongoing %}{{ item.title }} ({{ item.status }}){% unless forloop.last %}; {% endunless %}{% endfor %}.{%- endcapture %}
+{"section": "Research", "title": "Overview", "anchor": "research", "file": {{ f_research.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- capture t -%}To contact Dang, email {{ p.email }}. He is based in {{ location }}. His Google Scholar, GitHub and LinkedIn are linked on this site.{%- endcapture %}
+{"section": "Contact", "title": "Contact", "anchor": "about", "file": {{ f_about.name | jsonify }}, "text": {{ t | jsonify }}},
+{%- for item in bot.notes %}
+{"section": {{ item.section | jsonify }}, "title": {{ item.title | jsonify }}, "anchor": null, "file": ".chathallulu/notes.md", "text": {{ item.text | strip | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor %}
+],
+"keys": {{ bot.keys | jsonify }},
+"titleKeys": {{ bot.title_keys | jsonify }},
+{%- comment -%}
+Names that mark a question as about Dang: every company, project, paper, lab, school and award in the
+data files (the part before a comma or colon), plus the short forms listed in chathallulu.yml.
+{%- endcomment -%}
+{%- capture terms -%}
+{%- for item in site.data.experience %}{{ item.name }}|{% endfor -%}
+{%- for item in site.data.projects %}{{ item.title | split: "," | first }}|{% endfor -%}
+{%- for item in pubs %}{{ item.title | split: ":" | first }}|{% endfor -%}
+{%- assign research = site.data.research.ongoing | concat: site.data.research.projects -%}
+{%- for item in research %}{% assign w = item.where | split: ";" | first | split: "," | first %}{{ item.title | split: ":" | first }}|{% unless w == "Independent research" %}{{ w }}|{% endunless %}{% endfor -%}
+{%- for item in p.education %}{{ item.name }}|{% endfor -%}
+{%- for item in p.awards %}{{ item.name | replace: ", ", "|" }}|{% endfor -%}
+{%- endcapture -%}
+{%- assign terms = terms | downcase | split: "|" | concat: bot.site_terms | uniq -%}
+"siteTerms": {{ terms | jsonify }},
+"location": {{ location | jsonify }},
+"openTo": {{ p.open_to | jsonify }},
+{%- comment -%} "Has he published?" gets a fixed answer: the model kept calling a paper under review published. {%- endcomment -%}
+{%- assign review = pubs | where_exp: "e", "e.pub_post contains 'under review'" -%}
+{%- capture t -%}{% if pubs.size == 1 %}One paper so far{% else %}{{ pubs.size }} papers so far{% endif %}: {% for item in pubs %}{{ item.title }}, {{ item.pub }}{{ item.pub_post | remove: "." }}{% if item.pub_last %} ({{ item.pub_last }}){% endif %}{% unless forloop.last %}; {% endunless %}{% endfor %}.{% if review.size == pubs.size %} Under review means not accepted yet, so I wouldn't call it published.{% endif %} The Research section lists his other work.{%- endcapture %}
+"papers": {{ t | jsonify }},
+{%- comment -%} "Any news?" is too vague for the model, which answered "no news" with the News passage in hand. {%- endcomment -%}
+{%- capture t -%}Latest from Dang's News section:{% for n in news limit: 3 %}{{ nl }}{{ n.date | date: "%Y-%m" }}  {{ n.title | strip_html | strip }}{% endfor %}{%- endcapture %}
+"news": {{ t | jsonify }},
+{%- comment -%} "Was he a TA?" gets a fixed answer: given the Teaching passage, the model said "No" and then described the role. {%- endcomment -%}
+{%- capture t -%}{% for item in p.teaching %}{% assign parts = item.name | split: ", " %}{% assign first = parts[0] | slice: 0 | downcase %}{% unless forloop.first %} {% endunless %}He was {% if "aeiou" contains first %}an{% else %}a{% endif %} {{ parts[0] | replace: "Course Assistant", "Course Assistant (UCA)" }}{% if parts[1] %} for {{ parts[1] }}{% endif %}{% if parts[2] %} at {{ parts[2] }}{% endif %} in {{ item.date }}.{% endfor %}{%- endcapture %}
+"teaching": {{ t | jsonify }},
+"lines": {{ bot.lines | jsonify }}
+}

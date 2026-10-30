@@ -25,6 +25,7 @@ exclude:
   - _tpl
   - vendor
   - .claude
+  - tools # ChatHallulu tests, not part of the site
 
 collections:
   - publications

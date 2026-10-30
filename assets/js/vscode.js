@@ -197,9 +197,9 @@
         updateMinimap();
     }
 
+    // Between the sticky chrome and the status bar.
     function visibleHeight() {
-        var status = document.querySelector(".statusbar");
-        return window.innerHeight - chromeBottom() - status.offsetHeight;
+        return window.innerHeight - chromeBottom() - document.querySelector(".statusbar").offsetHeight;
     }
 
     function editorTop() {
@@ -249,12 +249,15 @@
     }
 
     var resizeTimer = null;
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", function () {
+    function onResize() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () { renderMinimap(); updateSection(); }, 150);
-    });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
     window.addEventListener("load", renderMinimap);
+    // ChatHallulu's side bar changes the editor's width as it opens, closes or is dragged.
+    document.addEventListener("chatresize", onResize);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderMinimap);
 
     updateSection();

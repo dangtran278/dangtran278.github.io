@@ -1,34 +1,27 @@
 # dangtran278.github.io
 
-Personal site of Dang Quang Thien Tran, served by GitHub Pages at https://dangtran278.github.io.
+Personal site of Dang Quang Thien Tran: https://dangtran278.github.io. It looks like a VS Code window,
+with each section shown as a file, and it has a small chatbot, ChatHallulu, that answers questions about
+me.
 
-The content model (data files, publication and news collections, the author list) comes from
-[academic-homepage](https://github.com/luost26/academic-homepage) by Shitong Luo (MIT license), taken at
-commit `69f6589` (2026-10-22). The look is new: a one-page VS Code-style workbench, with each section shown
-as a file. GitHub Pages builds it with its own Jekyll 3.9, so there is no workflow to maintain.
+GitHub Pages builds it with Jekyll. The data files and the publication and news collections come from
+[academic-homepage](https://github.com/luost26/academic-homepage) by Shitong Luo (MIT license).
 
-## Where things live
+## Editing content
 
 | To change | Edit |
 | --- | --- |
 | Name, links, bio, education, honors, skills | `_data/profile.yml` |
-| Research entries | `_data/research.yml` |
-| Industry experience | `_data/experience.yml` |
-| Projects | `_data/projects.yml` |
-| Publications | one file per paper in `_publications/` |
-| News | one file per item in `_news/` (the home page shows the newest five) |
-| Section file names, icons and order in the tabs and Explorer | `_data/files.yml` |
-| Figures | `cover:` and `cover_alt:` in a paper's front matter or a project entry; put images in `assets/images/figures/`, padded to 16:10. Without a cover, the entry shows no figure. A project's `demo:` points at a video in `assets/videos/` and adds a Demo chip |
-| Template credit at the end of the page | `footer_text` in `_data/display.yml` |
-| Photo | replace `assets/images/photos/dang.jpg`, or point `portrait_url` in `_data/profile.yml` at a new file |
-| CV and resume | `assets/files/` |
+| Research, experience, projects | `_data/research.yml`, `experience.yml`, `projects.yml` |
+| Publications, news | one file per item in `_publications/`, `_news/` |
+| Figures | `cover:` in a paper or project entry, images in `assets/images/figures/` (16:10) |
+| Photo, CV and resume | `assets/images/photos/dang.jpg`, `assets/files/` |
+| What ChatHallulu says beyond the page | `_data/chathallulu.yml` |
 
-The PDFs in `assets/files/` are public versions: no phone number, and the unpublished projects appear as
-topic lines only. Regenerate them rather than copying the private CV over them.
+ChatHallulu reads the same data files as the page, so new entries need no bot edit. The bio and research
+notes in `_data/chathallulu.yml` are copies, though: update them when your own bio or research changes.
 
 ## Preview locally
-
-With Docker:
 
 ```sh
 docker run --rm -it -v "$PWD:/srv/site" -w /srv/site -p 4000:4000 ruby:3.1 \
@@ -37,13 +30,35 @@ docker run --rm -it -v "$PWD:/srv/site" -w /srv/site -p 4000:4000 ruby:3.1 \
 
 Then open http://localhost:4000.
 
-## Layout code
+## ChatHallulu
 
-| Part | File |
-| --- | --- |
-| Page shell (title bar, activity bar, Explorer, tabs, status bar, quick open) | `_layouts/vscode.html` |
-| Sections | `index.html` |
-| Small pieces (profile, file icons, keyword lines, figures) | `_includes/vscode/` |
-| Light+ and Dark+ themes, layout, phone view | `assets/css/vscode.css` |
-| Section tracking, theme and Explorer toggles, quick open (Ctrl K), minimap | `assets/js/vscode.js` |
-| 404 page | `404.html` with `_layouts/prompt.html` |
+Open it with the button in the title bar or Ctrl+Alt+I. It runs
+[Qwen3.5-0.8B](https://huggingface.co/onnx-community/Qwen3.5-0.8B-Text-ONNX) entirely in your browser with
+[transformers.js](https://github.com/huggingface/transformers.js) on WebGPU, after asking to download about
+520 MB. Nothing you type leaves the page. It works on desktop Chrome and Edge, not on phones.
+
+For a question about me, it finds the three most relevant passages on the site, answers from them, and
+checks each sentence against them. Search uses BM25 and
+[granite-embedding-small-english-r2](https://huggingface.co/ibm-granite/granite-embedding-small-english-r2)
+(IBM, Apache 2.0). It also chats about anything else, and labels answers that don't come from the site.
+
+### Tests
+
+`tools/chathallulu/cases.txt` lists questions and what their answers should contain. With the site
+running locally:
+
+```sh
+cd tools/chathallulu
+npm install       # once
+node route.js     # instant: does each question go to the right place?
+node ask.js       # a few minutes: asks every question in the real chat
+```
+
+`ask.js` drives an installed Google Chrome. To use Edge instead, set `BROWSER=msedge` first.
+
+## Credits
+
+- Site structure: [academic-homepage](https://github.com/luost26/academic-homepage) by Shitong Luo, MIT.
+- `assets/chathallulu/porter2.js`: [wink-porter2-stemmer](https://github.com/winkjs/wink-porter2-stemmer)
+  2.0.1, MIT, notice kept in the file.
+- Model and runtime: Qwen3.5-0.8B by the Qwen team, transformers.js by Hugging Face (Apache 2.0).

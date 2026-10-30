@@ -8,6 +8,7 @@
         <div class="pos">
             {% for position in p.positions %}<span>{{ position.name }}</span>{% endfor %}
         </div>
+        {% if p.open_to %}<div class="open">{{ p.open_to }}</div>{% endif %}
     </div>
     <div class="links">
         {% if p.email %}
